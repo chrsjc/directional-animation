@@ -7,80 +7,94 @@ enum ActionKind {
     Idle,
     Jumping
 }
-let mouthClosed = (img`
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 5 5 . . . .
-    . . . 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . 5 5 5 5 5 5 5 5 . . . . . . .
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
-    . . . 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . . . . 5 5 5 5 5 5 5 . . . .
-`)
-let mouthOpen = (img`
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 5 5 . . . .
-    . . . 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . 5 5 5 5 5 5 5 5 5 5 5 . . .
-    . 5 5 5 5 5 5 5 5 5 5 5 . . . .
-    . 5 5 5 5 5 5 5 5 5 5 . . . . .
-    . 5 5 5 5 5 5 5 5 5 . . . . . .
-    . 5 5 5 5 5 5 5 5 . . . . . . .
-    . 5 5 5 5 5 5 5 5 5 . . . . . .
-    . 5 5 5 5 5 5 5 5 5 5 . . . . .
-    . 5 5 5 5 5 5 5 5 5 5 5 . . . .
-    . . 5 5 5 5 5 5 5 5 5 5 5 . . .
-    . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . . 5 5 5 5 5 5 5 5 5 5 5 . .
-    . . . . . 5 5 5 5 5 5 5 . . . .
-`)
-let mySprite = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-`, 0)
-mySprite.setFlag(SpriteFlag.StayInScreen, true)
-let direction: ActionKind = ActionKind.Right
-controller.moveSprite(mySprite)
-let rAnim = animation.createAnimation(ActionKind.Right, 1000)
-rAnim.addAnimationFrame(mouthClosed)
-rAnim.addAnimationFrame(mouthOpen)
-let lAnim = animation.createAnimation(ActionKind.Left, 1000)
-lAnim.addAnimationFrame(mouthClosed.rotated(180))
-lAnim.addAnimationFrame(mouthOpen.rotated(180))
-let uAnim = animation.createAnimation(ActionKind.Up, 1000)
-uAnim.addAnimationFrame(mouthClosed.rotated(-90))
-uAnim.addAnimationFrame(mouthOpen.rotated(-90))
-let dAnim = animation.createAnimation(ActionKind.Down, 1000)
-dAnim.addAnimationFrame(mouthClosed.rotated(90))
-dAnim.addAnimationFrame(mouthOpen.rotated(90))
-animation.attachAnimation(mySprite, uAnim)
-animation.attachAnimation(mySprite, dAnim)
-animation.attachAnimation(mySprite, lAnim)
-animation.attachAnimation(mySprite, rAnim)
-animation.setAction(mySprite, ActionKind.Right)
+function createSprite () {
+    mySprite = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `, 0)
+    mySprite.setFlag(SpriteFlag.StayInScreen, true)
+    controller.moveSprite(mySprite)
+    createAnimation()
+}
+function createAnimation () {
+    direction = ActionKind.Right
+    mouthClosed = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . 5 5 5 5 5 5 5 . . . .
+        . . . 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . 5 5 5 5 5 5 5 5 . . . . . . .
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 5 .
+        . . . 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . 5 5 5 5 5 5 5 . . . .
+    `
+    mouthOpen = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . 5 5 5 5 5 5 5 . . . .
+        . . . 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 . . .
+        . 5 5 5 5 5 5 5 5 5 5 5 . . . .
+        . 5 5 5 5 5 5 5 5 5 5 . . . . .
+        . 5 5 5 5 5 5 5 5 5 . . . . . .
+        . 5 5 5 5 5 5 5 5 . . . . . . .
+        . 5 5 5 5 5 5 5 5 5 . . . . . .
+        . 5 5 5 5 5 5 5 5 5 5 . . . . .
+        . 5 5 5 5 5 5 5 5 5 5 5 . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . 5 5 5 5 5 5 5 . . . .
+    `
+    rightAnim = animation.createAnimation(ActionKind.Right, 200)
+    rightAnim.addAnimationFrame(mouthClosed)
+    rightAnim.addAnimationFrame(mouthOpen)
+    leftAnim = animation.createAnimation(ActionKind.Left, 200)
+    leftAnim.addAnimationFrame(mouthClosed.rotated(180))
+    leftAnim.addAnimationFrame(mouthOpen.rotated(180))
+    upAnim = animation.createAnimation(ActionKind.Up, 200)
+    upAnim.addAnimationFrame(mouthClosed.rotated(-90))
+    upAnim.addAnimationFrame(mouthOpen.rotated(-90))
+    downAnim = animation.createAnimation(ActionKind.Down, 200)
+    downAnim.addAnimationFrame(mouthClosed.rotated(90))
+    downAnim.addAnimationFrame(mouthOpen.rotated(90))
+    animation.attachAnimation(mySprite, upAnim)
+    animation.attachAnimation(mySprite, downAnim)
+    animation.attachAnimation(mySprite, leftAnim)
+    animation.attachAnimation(mySprite, rightAnim)
+    animation.setAction(mySprite, ActionKind.Right)
+}
+let downAnim: animation.Animation = null
+let upAnim: animation.Animation = null
+let leftAnim: animation.Animation = null
+let rightAnim: animation.Animation = null
+let mouthOpen: Image = null
+let mouthClosed: Image = null
+let direction = 0
+let mySprite: Sprite = null
+createSprite()
 game.onUpdateInterval(100, function () {
     if (mySprite.vx > 0 && direction != ActionKind.Right) {
         direction = ActionKind.Right

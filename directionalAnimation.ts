@@ -8,7 +8,6 @@ enum ActionKind {
 }
 
 function createAnimation(sprite: Sprite, mouthClosed: Image, mouthOpen: Image) {
-    direction = ActionKind.Right
 
     let rightAnim: animation.Animation = animation.createAnimation(ActionKind.Right, 200)
     rightAnim.addAnimationFrame(mouthClosed)
